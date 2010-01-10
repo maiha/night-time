@@ -21,12 +21,17 @@ class Time
 
     def mktime(*args)
       year, mon, day, hour, min, sec, usec = args
-      hour, min, sec, extra = mod_midnight(hour, min, sec)
+      extra = 0
+      if hour.to_i >= 24 or min.to_i >= 60 or sec.to_i > 60
+        hour, min, sec, extra = mod_midnight(hour, min, sec)
+      end
       mktime_without_night_time(year, mon, day, hour, min, sec, usec) + extra
     end
 
-    def parse(text)
-      Time.mktime(*ParseDate.parsedate(text)[0,7])
+    unless respond_to?(:parse)
+      def parse(text)
+        Time.mktime(*ParseDate.parsedate(text)[0,7])
+      end
     end
   end
 end

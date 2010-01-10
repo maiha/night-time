@@ -1,18 +1,34 @@
-Native "mktime" method is too strict.
+NAME
+    An extension to Time class that supports out of ranged values
 
-    Time.mktime(2010, 1, 10, 26, 40)
-    => ArgumentError: argument out of range
+SYNOPSIS
+    Native "mktime" method is too strict.
 
+      Time.mktime(2010, 1, 10, 26, 40)
+      => ArgumentError: argument out of range
 
-We the midnight workers want flexible one.
+    We the midnight workers want flexible one.
 
-    require 'night-time'
-    Time.mktime(2010, 1, 10, 26, 40)
-    => Mon Jan 11 02:40:00 +0900 2010 
+      require 'night-time'
+      Time.mktime(2010, 1, 10, 26, 40)
+      => Mon Jan 11 02:40:00 +0900 2010 
 
-    Time.parse('2010-01-10 26:40')
-    => Mon Jan 11 02:40:00 +0900 2010 
+      Time.parse('2010-01-10 26:40')
+      => Mon Jan 11 02:40:00 +0900 2010 
 
+    w00t!
 
-w00t!
+DESCRIPTION
+    Modified methods are
 
+      * Time.mktime
+
+    Added methods are
+
+      * Time.parse (use ParseDate)
+
+HOMEPAGE
+    http://github.com/maiha/night-time
+
+AUTHOR
+    maiha@wota.jp
