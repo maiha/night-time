@@ -1,5 +1,5 @@
 NAME
-    An extension to Time class that supports out of ranged values
+    NightTime behaves like Time but it also supports out of ranged values
 
 SYNOPSIS
     Native "mktime" method is too strict.
@@ -39,6 +39,9 @@ JST
       jst.time
       => Mon Jul 09 00:30:00 +0900 2012
 
+CHANGES
+  * 1.0.0: independent from Time object
+  
 
 HOMEPAGE
     http://github.com/maiha/night-time

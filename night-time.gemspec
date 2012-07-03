@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["maiha"]
   s.email       = ["maiha@wota.jp"]
   s.homepage    = "https://github.com/maiha/night-time"
-  s.summary     = %q{An extension to Time class that supports out of ranged values}
-  s.description = %q{An extension to Time class that supports out of ranged values}
+  s.summary     = %q{NightTime behaves like Time but it also supports out of ranged values}
+  s.description = %q{NightTime behaves like Time but it also supports out of ranged values}
 
   s.rubyforge_project = "night-time"
 
