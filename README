@@ -1,10 +1,13 @@
 NAME
-    An extension to Time class that supports out of ranged values
+    NightTime behaves like Time but it also supports out of ranged values
 
 SYNOPSIS
     Native "mktime" method is too strict.
 
       Time.mktime(2010, 1, 10, 26, 40)
+      => ArgumentError: argument out of range
+
+      Time.mktime(2010, 2, 32)
       => ArgumentError: argument out of range
 
     We the midnight workers want flexible one.
@@ -15,6 +18,9 @@ SYNOPSIS
 
       NightTime.parse('2010-01-10 26:40')
       => Mon Jan 11 02:40:00 +0900 2010 
+
+      NightTime.mktime(2010, 2, 32)
+      => Thu Mar 04 00:00:00 +0900 2010
 
     w00t!
 
@@ -33,6 +39,9 @@ JST
       jst.time
       => Mon Jul 09 00:30:00 +0900 2012
 
+CHANGES
+  * 1.0.0: independent from Time object
+  
 
 HOMEPAGE
     http://github.com/maiha/night-time
