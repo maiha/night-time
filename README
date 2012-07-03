@@ -10,22 +10,18 @@ SYNOPSIS
     We the midnight workers want flexible one.
 
       require 'night-time'
-      Time.mktime(2010, 1, 10, 26, 40)
+      NightTime.mktime(2010, 1, 10, 26, 40)
       => Mon Jan 11 02:40:00 +0900 2010 
 
-      Time.parse('2010-01-10 26:40')
+      NightTime.parse('2010-01-10 26:40')
       => Mon Jan 11 02:40:00 +0900 2010 
 
     w00t!
 
 DESCRIPTION
-    Modified methods are
-
-      * Time.mktime
-
-    Added methods are
-
-      * Time.parse (use ParseDate)
+   * NightTime.mktime(*args)
+   * NightTime.parse(text)
+   * NightTime::Jst.parse(text)
 
 JST
     NightTime::Jst can extract time from Japanese texts.

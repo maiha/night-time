@@ -3,10 +3,30 @@
 require File.join(File.dirname(__FILE__), 'spec_helper.rb')
 
 describe NightTime::Jst do
+  describe ".parse" do
+    it "should return a time object" do
+      NightTime::Jst.parse("2012/7/3 11:30").should == Time.mktime(2012,7,3,11,30)
+    end
+  end
+end
+
+describe NightTime::Jst do
   let(:year ) { Time.now.year  }
   let(:month) { Time.now.month }
   let(:day  ) { Time.now.day   }
   subject { NightTime::Jst.new(text) }
+
+  context "(YYYY-MM-DD)" do
+    let(:text ) { "1994-04-12" }
+    its(:parse) { should == [1994,4,12,nil,nil,nil] }
+    its(:time ) { should == Time.mktime(1994,4,12) }
+  end
+
+  context "(XXXX/X/X)" do
+    let(:text ) { "2012/7/3" }
+    its(:parse) { should == [2012,7,3,nil,nil,nil] }
+    its(:time ) { should == Time.mktime(2012,7,3) }
+  end
 
   context "(XX月XX日)[半角]" do
     let(:text ) { "テレビ7月8日(土)24:30～25:00" }

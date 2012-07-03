@@ -1,7 +1,7 @@
 require 'parsedate'
 
-class Time
-  class << self
+module NightTime
+  module Calculate
     def mod_midnight(hour, min, sec)
       extra = 0
 
@@ -16,26 +16,19 @@ class Time
       return [hour, min, sec, extra]
     end
 
-
-    alias mktime_without_night_time mktime
-
     def mktime(*args)
       year, mon, day, hour, min, sec, usec = args
       extra = 0
       if hour.to_i >= 24 or min.to_i >= 60 or sec.to_i > 60
         hour, min, sec, extra = mod_midnight(hour, min, sec)
       end
-      mktime_without_night_time(year, mon, day, hour, min, sec, usec) + extra
+      Time.mktime(year, mon, day, hour, min, sec, usec) + extra
     end
 
-    unless respond_to?(:parse)
-      def parse(text)
-        Time.mktime(*ParseDate.parsedate(text)[0,7])
-      end
-    end
-
-    def parse_jst(text)
-      NightTime::ParseJst.parse(text)
+    def parse(text)
+      mktime(*ParseDate.parsedate(text)[0,7])
     end
   end
+
+  extend Calculate
 end
