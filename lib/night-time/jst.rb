@@ -13,10 +13,6 @@ module NightTime
       def inspect; "<Build: %s>" % [year,month,day,hour,min,sec].inspect; end
     end
 
-    def self.parse(text)
-      new(text).parse
-    end
-
     def initialize(text)
       @text  = NKF.nkf('-Wwxm0Z0', text).gsub(/\s+/m,'').strip
       @build = Build.new

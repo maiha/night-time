@@ -27,6 +27,17 @@ DESCRIPTION
 
       * Time.parse (use ParseDate)
 
+JST
+    NightTime::Jst can extract time from Japanese texts.
+
+      jst = NightTime::Jst.new("テレビ7月8日(土)24:30～25:00")
+      jst.parse
+      => [nil,7,8,24,30,nil]
+
+      jst.time
+      => Mon Jul 09 00:30:00 +0900 2012
+
+
 HOMEPAGE
     http://github.com/maiha/night-time
 
