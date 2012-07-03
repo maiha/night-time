@@ -9,7 +9,7 @@ module NightTime
       def time?; hour and min; end
       def full?; date? and time?; end
       def to_array; [year, month, day, hour, min, sec]; end
-      def to_time; Time.mktime(year, month, day, hour||0, min||0, sec||0); end
+      def to_time; NightTime.mktime(year, month, day, hour||0, min||0, sec||0); end
       def inspect; "<Build: %s>" % [year,month,day,hour,min,sec].inspect; end
     end
 
