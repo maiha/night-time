@@ -1,3 +1,5 @@
+require "night-time/version"
+
 module NightTime
   autoload :Jst, "night-time/jst"
 end
