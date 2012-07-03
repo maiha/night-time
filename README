@@ -7,6 +7,9 @@ SYNOPSIS
       Time.mktime(2010, 1, 10, 26, 40)
       => ArgumentError: argument out of range
 
+      Time.mktime(2010, 2, 32)
+      => ArgumentError: argument out of range
+
     We the midnight workers want flexible one.
 
       require 'night-time'
@@ -15,6 +18,9 @@ SYNOPSIS
 
       NightTime.parse('2010-01-10 26:40')
       => Mon Jan 11 02:40:00 +0900 2010 
+
+      NightTime.mktime(2010, 2, 32)
+      => Thu Mar 04 00:00:00 +0900 2010
 
     w00t!
 

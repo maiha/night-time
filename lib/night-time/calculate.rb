@@ -22,7 +22,18 @@ module NightTime
       if hour.to_i >= 24 or min.to_i >= 60 or sec.to_i > 60
         hour, min, sec, extra = mod_midnight(hour, min, sec)
       end
-      Time.mktime(year, mon, day, hour, min, sec, usec) + extra
+
+      begin
+        Time.mktime(year, mon, day, hour, min, sec, usec) + extra
+      rescue ArgumentError
+        if day < 28
+          raise
+        else
+          extra += (day - 28) * 86400
+          day = 28
+          Time.mktime(year, mon, day, hour, min, sec, usec) + extra
+        end
+      end
     end
 
     def parse(text)
