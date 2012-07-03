@@ -3,6 +3,10 @@ require 'nkf'
 
 module NightTime
   class Jst
+    def self.parse(text, now = nil)
+      new(text).time(now)
+    end
+
     class Build < RuntimeError
       attr_accessor :year,:month,:day,:hour,:min,:sec
       def date?; month and day; end
@@ -14,7 +18,7 @@ module NightTime
     end
 
     def initialize(text)
-      @text  = NKF.nkf('-Wwxm0Z0', text).gsub(/\s+/m,'').strip
+      @text  = NKF.nkf('-Wwxm0Z0', text).gsub(/\s+/m,' ').strip
       @build = Build.new
     end
 
@@ -63,6 +67,7 @@ module NightTime
         catch(:completed) {
           parse_nengappi
           parse_gappi
+          parse_iso8601
           parse_jifunbyou
           parse_jifun
           parse_month_slash_day
@@ -71,7 +76,7 @@ module NightTime
       end
 
       def parse_nengappi
-        @text.scan(/(\d{4})年(\d{1,2})月(\d{1,2})日/) {
+        @text.scan(/(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日/) {
           @build.year  ||= $1.to_i
           @build.month ||= $2.to_i
           @build.day   ||= $3.to_i
@@ -80,9 +85,18 @@ module NightTime
       end
 
       def parse_gappi
-        @text.scan(/(\d{1,2})月(\d{1,2})日/) {
+        @text.scan(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/) {
           @build.month ||= $1.to_i
           @build.day   ||= $2.to_i
+          return validate!
+        }
+      end
+
+      def parse_iso8601
+        @text.scan(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/) {
+          @build.year  ||= $1.to_i
+          @build.month ||= $2.to_i
+          @build.day   ||= $3.to_i
           return validate!
         }
       end
@@ -96,7 +110,7 @@ module NightTime
       end
 
       def parse_jifunbyou
-        @text.scan(/(夜)?(\d{1,2})時(\d{1,2})分(\d{1,2})秒/) {
+        @text.scan(/(夜)?\s*(\d{1,2})\s*時\s*(\d{1,2})\s*分\s*(\d{1,2})秒/) {
           hour_margin = ($1 and $2.to_i < 5) ? 24 : 0
           @build.hour ||= hour_margin + $2.to_i
           @build.min  ||= $3.to_i
@@ -106,7 +120,7 @@ module NightTime
       end
 
       def parse_jifun
-        @text.scan(/(夜)?(\d{1,2})時(\d{1,2})分/) {
+        @text.scan(/(夜)?\s*(\d{1,2})\s*時\s*(\d{1,2})\s*分/) {
           hour_margin = ($1 and $2.to_i < 5) ? 24 : 0
           @build.hour ||= hour_margin + $2.to_i
           @build.min  ||= $3.to_i
@@ -115,7 +129,7 @@ module NightTime
       end
 
       def parse_hour_colon_min
-        @text.scan(/(夜)?(\d{1,2}):(\d{1,2})/) {
+        @text.scan(/(夜)?\s*(\d{1,2}):(\d{1,2})/) {
           hour_margin = ($1 and $2.to_i < 5) ? 24 : 0
           @build.hour ||= hour_margin + $2.to_i
           @build.min  ||= $3.to_i
