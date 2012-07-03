@@ -1,3 +1,4 @@
+$KCODE = 'u'
 
 require 'rspec'
 
