@@ -8,6 +8,12 @@ describe NightTime::Jst do
       NightTime::Jst.parse("2012/7/3 11:30").should == Time.mktime(2012,7,3,11,30)
     end
   end
+
+  describe ".parsedate" do
+    it "should return an Array" do
+      NightTime::Jst.parsedate("2012/7/3 11:30").should == [2012, 7, 3, 11, 30, nil]
+    end
+  end
 end
 
 describe NightTime::Jst do
@@ -25,6 +31,12 @@ describe NightTime::Jst do
   context "(XXXX/X/X)" do
     let(:text ) { "2012/7/3" }
     its(:parse) { should == [2012,7,3,nil,nil,nil] }
+    its(:time ) { should == Time.mktime(2012,7,3) }
+  end
+
+  context "(X/X)" do
+    let(:text ) { "7/3" }
+    its(:parse) { should == [nil,7,3,nil,nil,nil] }
     its(:time ) { should == Time.mktime(2012,7,3) }
   end
 
@@ -75,4 +87,66 @@ describe NightTime::Jst do
     its(:parse) { should == [nil, nil, nil, 23, 30, nil] }
     its(:time ) { should == Time.mktime(year,month,day,23,30) }
   end
+
+  ######################################################################
+  ### ignore range error
+
+  context "(13/X)" do
+    let(:text ) { "13/3" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(X/32)" do
+    let(:text ) { "1/32" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(0/X)" do
+    let(:text ) { "0/1" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(X/0)" do
+    let(:text ) { "1/0" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(XXXX/0/X)" do
+    let(:text ) { "2012/0/3" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(XXXX/X/0)" do
+    let(:text ) { "2012/1/0" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(XXXX/13/X)" do
+    let(:text ) { "2012/13/1" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(XXXX/X/32)" do
+    let(:text ) { "2012/1/32" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(YYYYY/MM/DD)" do
+    let(:text ) { "11994-04-12" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  ######################################################################
+  ### ambiguous value
+
+  context "(2012/1/1/1)" do
+    let(:text ) { "2012/1/1/1" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
+  context "(1/1/1)" do
+    let(:text ) { "1/1/1" }
+    its(:parse) { should == [nil,nil,nil,nil,nil,nil] }
+  end
+
 end
