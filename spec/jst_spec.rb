@@ -8,6 +8,12 @@ describe NightTime::Jst do
       NightTime::Jst.parse("2012/7/3 11:30").should == Time.mktime(2012,7,3,11,30)
     end
   end
+
+  describe ".parsedate" do
+    it "should return an Array" do
+      NightTime::Jst.parsedate("2012/7/3 11:30").should == [2012, 7, 3, 11, 30, nil]
+    end
+  end
 end
 
 describe NightTime::Jst do
