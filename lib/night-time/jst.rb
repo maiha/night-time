@@ -3,9 +3,19 @@ require 'nkf'
 
 module NightTime
   class Jst
+    ######################################################################
+    ### Class Methods
+
     def self.parse(text, now = nil)
       new(text).time(now)
     end
+
+    def self.parsedate(text)
+      new(text).parse
+    end
+
+    ######################################################################
+    ### Builder
 
     class Build < RuntimeError
       attr_accessor :year,:month,:day,:hour,:min,:sec
@@ -19,6 +29,9 @@ module NightTime
 
     class Changed   < RuntimeError; end
     class Completed < RuntimeError; end
+
+    ######################################################################
+    ### Jst class
 
     def initialize(text)
       @text  = NKF.nkf('-Wwxm0Z0', text).gsub(/\s+/m,' ').strip

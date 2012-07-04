@@ -27,16 +27,16 @@ SYNOPSIS
 DESCRIPTION
    * NightTime.mktime(*args)
    * NightTime.parse(text)
-   * NightTime::Jst.parse(text)
+   * NightTime::Jst.parse(text, now = nil)  # => a Time
+   * NightTime::Jst.parsedate(text)         # => an Array
 
 JST
     NightTime::Jst can extract time from Japanese texts.
 
-      jst = NightTime::Jst.new("テレビ7月8日(土)24:30～25:00")
-      jst.parse
+      jst = NightTime::Jst.parsedate("テレビ7月8日(土)24:30～25:00")
       => [nil,7,8,24,30,nil]
 
-      jst.time
+      jst = NightTime::Jst.parse("テレビ7月8日(土)24:30～25:00")
       => Mon Jul 09 00:30:00 +0900 2012
 
 CHANGES
